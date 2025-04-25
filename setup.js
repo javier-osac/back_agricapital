@@ -1,19 +1,19 @@
 const { Client } = require("pg");
 
-// Conexión a PostgreSQL para crear la base de datos
+// Conexión a PostgreSQL 
 const createDatabase = async () => {
   const client = new Client({
-    user: "postgres", // Usuario por defecto de PostgreSQL
+    user: "postgres", 
     host: "localhost",
-    port: 5432, // Puerto por defecto de PostgreSQL
-    password: "123456", // Reemplaza con tu contraseña de PostgreSQL
+    port: 5432, 
+    password: "123456", 
   });
 
   try {
     await client.connect();
     console.log("Conectado a PostgreSQL");
 
-    // Crear la base de datos 'agronova' si no existe
+    // Crear la base de datos
     await client.query("CREATE DATABASE agronova");
     console.log('Base de datos "agronova" creada');
   } catch (err) {
@@ -27,14 +27,14 @@ const createDatabase = async () => {
   }
 };
 
-// Conexión a la base de datos 'agronova' para crear la tabla y agregar productos
+
 const setupDatabase = async () => {
   const client = new Client({
-    user: "postgres", // Usuario por defecto de PostgreSQL
+    user: "postgres", 
     host: "localhost",
-    port: 5432, // Puerto por defecto de PostgreSQL
-    database: "agronova", // Nombre de la base de datos
-    password: "123456", // Reemplaza con tu contraseña de PostgreSQL
+    port: 5432, 
+    database: "agronova", 
+    password: "123456", 
   });
 
   try {
@@ -47,7 +47,8 @@ const setupDatabase = async () => {
         id SERIAL PRIMARY KEY,
         product_name VARCHAR(255),
         category VARCHAR(255),
-        price DECIMAL
+        price DECIMAL,
+        image_url VARCHAR(255)
       );
     `;
     await client.query(createTableQuery);
@@ -75,10 +76,9 @@ const setupDatabase = async () => {
   }
 };
 
-// Ejecutar ambos pasos
 const runSetup = async () => {
-  await createDatabase(); // Crear base de datos (si no existe)
-  await setupDatabase(); // Crear tabla y agregar productos
+  await createDatabase(); 
+  await setupDatabase(); 
 };
 
 runSetup();

@@ -1,13 +1,15 @@
-// routes/products.js
 const express = require("express");
-const router = express.Router();
 
-// Importar las funciones del controlador
-const { getAllProducts, getProductById } = require("../controllers/products");
+// Exportar una función que recibe `client`
+module.exports = (client) => {
+  const router = express.Router();
 
-// Definir las rutas
-router.get("/", getAllProducts); // Obtener todos los productos
-router.get("/:id", getProductById); // Obtener producto por ID
+  // Importar las funciones del controlador, pasándole el client
+  const { getAllProducts, getProductById } = require("../controllers/products")(client);
 
-// Exportar el router
-module.exports = router;
+  // Definir las rutas
+  router.get("/", getAllProducts);
+  router.get("/:id", getProductById);
+
+  return router;
+};
