@@ -22,10 +22,19 @@ client
   });
 
 // Importar las rutas
-const productsRoutes = require("./routes/products"); // Verifica que la ruta sea correcta
+const productsRoutes = require("./routes/products")(client); // Verifica que la ruta sea correcta
 app.use("/api/products", productsRoutes); // Usar el router aquí
 
 // Iniciar el servidor
 app.listen(port, () => {
   console.log(`Servidor corriendo en http://localhost:${port}`);
 });
+app.get("/debug", async (req, res) => {
+  try {
+    const result = await client.query("SELECT * FROM products");
+    res.json(result.rows);
+  } catch (error) {
+    res.status(500).json({ error: "Falló la consulta", message: error.message });
+  }
+});
+
